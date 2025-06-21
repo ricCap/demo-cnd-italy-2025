@@ -12,8 +12,6 @@ spec:
     port: 80
     targetPort: 80
   analysis:
-    # schedule interval (default 60s)
-    interval: 30s
     # max number of failed checks before rollback
     threshold: 2
     # number of checks to run before rollback
