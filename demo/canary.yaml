@@ -14,8 +14,11 @@ spec:
   analysis:
     interval: 30s
     threshold: 5
-    maxWeight: 50
-    stepWeight: 10
+    iterations: 10
+    match:
+      - headers:
+          user-agent:
+            exact: "flagger"
     metrics:
       - name: request-success-rate
         thresholdRange:
@@ -25,3 +28,4 @@ spec:
         thresholdRange:
           max: 500
         interval: 30s
+  provider: kubernetes
