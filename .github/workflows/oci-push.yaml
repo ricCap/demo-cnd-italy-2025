@@ -25,15 +25,9 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Generate manifests
-        run: |
-          kustomize build ./manifests/staging > ./deploy/app.yaml
       - name: Push manifests
         run: |
           flux push artifact $OCI_REPO:$(git rev-parse --short HEAD) \
-            --path="./deploy" \
+            --path="./manifests" \
             --source="$(git config --get remote.origin.url)" \
             --revision="$(git branch --show-current)@sha1:$(git rev-parse HEAD)"
-      - name: Deploy manifests to staging
-        run: |
-          flux tag artifact $OCI_REPO:$(git rev-parse --short HEAD) --tag staging
