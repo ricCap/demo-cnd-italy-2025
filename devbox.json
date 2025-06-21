@@ -4,12 +4,13 @@
     "kubectl@latest",
     "kubernetes-helm@latest",
     "fluxcd@latest",
-    "k3d@latest"
+    "k3d@latest",
+    "k9s@latest"
   ],
   "shell": {
     "init_hook": [
       "echo 'Welcome to the FluxCD and Flagger demo environment!'",
-      "echo 'Available tools: task, kubectl, helm, flux, k3d'",
+      "echo 'Available tools: task, kubectl, helm, flux, k3d, k9s'",
       "echo 'Run \"task --list\" to see available tasks'"
     ]
   }
