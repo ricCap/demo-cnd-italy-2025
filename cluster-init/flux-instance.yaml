@@ -39,5 +39,5 @@ spec:
     kind: OCIRepository
     url: "oci://ghcr.io/riccap/manifests/demo-cnd-italy-2025"
     ref: "latest"
-    path: "manifests"
+    path: "."
     pullSecret: "ghcr-auth"
