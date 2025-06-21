@@ -1,12 +1,10 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: nginx
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+  name: nginx-ingress
 spec:
   rules:
-    - host: nginx.local
+    - host: cloudnativedays.it
       http:
         paths:
           - path: /
