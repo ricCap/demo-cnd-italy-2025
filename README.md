@@ -51,7 +51,7 @@ For more installation options, visit: https://www.jetpack.io/devbox/docs/install
 This project uses devbox to manage development dependencies. All required tools are automatically installed when you enter the devbox shell.
 
 ## Create the secret
-flux create secret oci flux-system \
+flux create secret oci ghcr-auth \
   --namespace flux-system \
   --url=ghcr.io \
   --username=ricCap \

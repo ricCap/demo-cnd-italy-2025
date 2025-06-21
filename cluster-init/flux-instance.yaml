@@ -37,7 +37,7 @@ spec:
             value: --requeue-dependency=5s
   sync:
     kind: OCIRepository
-    url: "oci://ghcr.io/ricCap/demo-cnd-italy-2025"
+    url: "oci://ghcr.io/riccap/manifests/demo-cnd-italy-2025"
     ref: "latest"
     path: "manifests"
     pullSecret: "ghcr-auth"
