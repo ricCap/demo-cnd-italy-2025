@@ -1,4 +1,4 @@
-name: push-sign-artifact
+name: push-artifact-staging
 
 on:
   push:
@@ -7,7 +7,6 @@ on:
 
 permissions:
   packages: write # needed for ghcr.io access
-  id-token: write # needed for keyless signing
 
 env:
   OCI_REPO: "oci://ghcr.io/ricCap/manifests/${{ github.event.repository.name }}"
@@ -20,22 +19,21 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup Flux CLI
         uses: fluxcd/flux2/action@main
-      - name: Setup Cosign
-        uses: sigstore/cosign-installer@main
       - name: Login to GHCR
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Push and sign manifests
+      - name: Generate manifests
         run: |
-          digest_url=$(flux push artifact \
-          $OCI_REPO:$(git rev-parse --short HEAD) \
-          --path="./manifests" \
-          --source="$(git config --get remote.origin.url)" \
-          --revision="$(git branch --show-current)@sha1:$(git rev-parse HEAD)" \
-          --output=json | \
-          jq -r '. | .repository + "@" + .digest')
-
-          cosign sign --yes $digest_url
+          kustomize build ./manifests/staging > ./deploy/app.yaml
+      - name: Push manifests
+        run: |
+          flux push artifact $OCI_REPO:$(git rev-parse --short HEAD) \
+            --path="./deploy" \
+            --source="$(git config --get remote.origin.url)" \
+            --revision="$(git branch --show-current)@sha1:$(git rev-parse HEAD)"
+      - name: Deploy manifests to staging
+        run: |
+          flux tag artifact $OCI_REPO:$(git rev-parse --short HEAD) --tag staging
