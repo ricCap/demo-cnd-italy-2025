@@ -1,18 +1,15 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-
+namespace: nginx-demo
 resources:
   - deployment.yaml
   - service.yaml
   - ingress.yaml
   - hpa.yaml
   - canary.yaml
-
 commonLabels:
   app: nginx
-
-namePrefix: demo-
-
+namePrefix: cnditaly-demo-
 images:
   - name: nginx
     newTag: latest

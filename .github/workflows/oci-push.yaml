@@ -9,7 +9,8 @@ permissions:
   packages: write # needed for ghcr.io access
 
 env:
-  OCI_REPO: "oci://ghcr.io/ricCap/manifests/${{ github.event.repository.name }}"
+  # update the name here to your org: make sure it is lowercase
+  OCI_REPO: "oci://ghcr.io/riccap/manifests/${{ github.event.repository.name }}"
 
 jobs:
   kubernetes:
