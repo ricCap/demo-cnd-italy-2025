@@ -4,3 +4,4 @@ resources:
   - flux-kustomization.yaml
   - nginx-helm-repository.yaml
   - nginx-helm-release.yaml
+  - demo-git-repository.yaml
