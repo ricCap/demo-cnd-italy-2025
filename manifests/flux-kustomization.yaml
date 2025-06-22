@@ -10,6 +10,5 @@ spec:
   sourceRef:
     kind: GitRepository
     name: demo-repo
-  targetNamespace: default
   wait: true
   timeout: 5m

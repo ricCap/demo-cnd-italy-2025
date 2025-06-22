@@ -63,14 +63,25 @@ Both images extend the nginx base image and serve a simple HTML page with differ
 ### CI/CD Pipeline
 The GitHub Actions workflow automatically builds and pushes both image variants to the GitHub Container Registry when changes are pushed to the main branch.
 
-## Create the secret
+## OCI Registry Authentication
+
+### Create the GitHub Container Registry Secret
+
+The OCI secret is required for FluxCD to authenticate with the GitHub Container Registry when pulling oci images used in this demo:
+
+```bash
 flux create secret oci ghcr-auth \
   --namespace flux-system \
   --url=ghcr.io \
-  --username=ricCap \
+  --username=YOUR_GITHUB_USERNAME \
   --password=$GITHUB_TOKEN
+```
 
+**Prerequisites:**
+- Set your `GITHUB_TOKEN` environment variable with a personal access token that has `packages:read` permissions
+- Replace `YOUR_GITHUB_USERNAME` with your actual GitHub username
 
+## MCP Server
 
   "flux-operator-mcp": {
      "command": "/usr/local/bin/flux-operator-mcp",
