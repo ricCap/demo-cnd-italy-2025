@@ -5,3 +5,5 @@ resources:
   - nginx-helm-repository.yaml
   - nginx-helm-release.yaml
   - demo-git-repository.yaml
+  - flagger-helm-repository.yaml
+  - flagger-loadtester-helm-release.yaml
