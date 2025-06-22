@@ -1,0 +1,41 @@
+FROM nginx:alpine
+
+COPY <<EOF /usr/share/nginx/html/index.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Demo App v1</title>
+    <style>
+        body {
+            background-color: #4285f4;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        p {
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Demo App v1</h1>
+        <p>Blue Version - Cloud Native Days Italy 2025</p>
+        <p>FluxCD + Flagger Demo</p>
+    </div>
+</body>
+</html>
+EOF
+
+EXPOSE 80

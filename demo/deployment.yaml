@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
         - name: nginx-container
-          image: nginx
+          image: ghcr.io/OWNER/REPO/demo-cnd-italy-nginx:v1
           ports:
             - containerPort: 80
