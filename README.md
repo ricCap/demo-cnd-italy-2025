@@ -2,6 +2,8 @@
 
 This repository demonstrates advanced deployment strategies using FluxCD and Flagger for the Cloud Native Days Italy 2025 conference.
 
+> Warning: everything in here was written by Claude and fixed by me (it works, but it ain't pretty )
+
 ## Overview
 
 This demo showcases:
@@ -67,7 +69,7 @@ The GitHub Actions workflow automatically builds and pushes both image variants 
 
 ### Create the GitHub Container Registry Secret
 
-The OCI secret is required for FluxCD to authenticate with the GitHub Container Registry when pulling oci images used in this demo:
+The OCI secret is required for FluxCD to authenticate with the GitHub Container Registry when pulling oci images used in this demo (note the registry is public so in this case you would not even need the secret):
 
 ```bash
 flux create secret oci ghcr-auth \

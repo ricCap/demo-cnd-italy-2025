@@ -2,7 +2,7 @@ version: "3"
 
 vars:
   CLUSTER_NAME: demo-cluster
-  NAMESPACE: demo-app
+  NAMESPACE: nginx-demo
 
 tasks:
   default:
@@ -69,17 +69,37 @@ tasks:
       - echo "Cluster{{":"}} {{.CLUSTER_NAME}}"
       - echo "Flux and Flagger are ready for use"
 
+  demo:suspend:
+    desc: Suspend demo-app kustomization for manual deployment updates
+    cmds:
+      - echo "Suspending demo-app kustomization..."
+      - flux suspend kustomization demo-app -n flux-system
+      - echo "Kustomization suspended - manual changes can now be applied"
+
+  demo:resume:
+    desc: Resume demo-app kustomization
+    cmds:
+      - echo "Resuming demo-app kustomization..."
+      - flux resume kustomization demo-app -n flux-system
+      - echo "Kustomization resumed - GitOps reconciliation active"
+
+  demo:update-v2:
+    desc: Update deployment to v2 image (requires suspended kustomization)
+    cmds:
+      - echo "Updating deployment to v2..."
+      - kubectl patch deployment nginx-deployment -n {{.NAMESPACE}} -p '{"spec":{"template":{"spec":{"containers":[{"name":"nginx-container","image":"ghcr.io/riccap/demo-cnd-italy-2025/demo-cnd-italy-nginx:v2"}]}}}}'
+      - echo "Deployment updated to v2"
+
   demo:canary:
     desc: Demonstrate canary deployment
     cmds:
-      - echo "Deploying canary release..."
-      - echo "kubectl apply -f manifests/canary.yaml"
-
-  demo:rollback:
-    desc: Demonstrate automated rollback
-    cmds:
-      - echo "Triggering rollback scenario..."
-      - echo "kubectl patch canary demo-app -p '{\"spec\":{\"analysis\":{\"threshold\":1}}}'"
+      - echo "Starting canary deployment demo..."
+      - echo "1. Suspending kustomization for manual control"
+      - task: demo:suspend
+      - echo "2. Applying canary configuration"
+      - kubectl apply -f demo/canary.yaml -n {{.NAMESPACE}}
+      - echo "3. Canary deployment initiated - monitor with{{":"}} kubectl get canary nginx-canary -w"
+      - echo "4. To trigger canary progression, update deployment image to v2{{":"}} task demo:update-v2"
 
   status:
     desc: Check status of demo components
