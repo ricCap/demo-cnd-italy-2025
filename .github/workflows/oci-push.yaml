@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - "main"
+    paths:
+      - 'manifests/**'
+      - '.github/workflows/oci-push.yaml'
 
 permissions:
   packages: write # needed for ghcr.io access
