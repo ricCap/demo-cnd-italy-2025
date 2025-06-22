@@ -1,30 +1,37 @@
 apiVersion: flagger.app/v1beta1
 kind: Canary
 metadata:
-  name: nginx-canary
+  name: podinfo
 spec:
+  provider: nginx
+  # deployment reference
   targetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: nginx-deployment
-  service:
-    name: nginx-service
-    port: 80
-    targetPort: 80
+    name: podinfo
   # ingress reference
   ingressRef:
     apiVersion: networking.k8s.io/v1
     kind: Ingress
-    name: nginx-ingress
+    name: podinfo
   # HPA reference (optional)
   autoscalerRef:
     apiVersion: autoscaling/v2
     kind: HorizontalPodAutoscaler
-    name: nginx-hpa
+    name: podinfo
+  # the maximum time in seconds for the canary deployment
+  # to make progress before it is rollback (default 600s)
+  progressDeadlineSeconds: 60
+  service:
+    # ClusterIP port number
+    port: 80
+    # container port number or name
+    targetPort: 9898
   analysis:
-    interval: 30s
-    # max number of failed checks before rollback
-    threshold: 2
+    # schedule interval (default 60s)
+    interval: 10s
+    # max number of failed metric checks before rollback
+    threshold: 10
     # max traffic percentage routed to canary
     # percentage (0-100)
     maxWeight: 50
@@ -34,16 +41,22 @@ spec:
     # NGINX Prometheus checks
     metrics:
       - name: request-success-rate
+        # minimum req success rate (non 5xx responses)
+        # percentage (0-100)
         thresholdRange:
           min: 99
         interval: 1m
-      - name: request-duration
-        thresholdRange:
-          max: 500
-        interval: 30s
+    # testing (optional)
     webhooks:
+      - name: acceptance-test
+        type: pre-rollout
+        url: http://flagger-loadtester.test/
+        timeout: 30s
+        metadata:
+          type: bash
+          cmd: "curl -sd 'test' http://podinfo-canary/token | grep token"
       - name: load-test
         url: http://flagger-loadtester.test/
         timeout: 5s
         metadata:
-          cmd: "hey -z 1s -q 10 -c 2 http://app.example.com"
+          cmd: "hey -z 1m -q 10 -c 2 http://app.example.com/"

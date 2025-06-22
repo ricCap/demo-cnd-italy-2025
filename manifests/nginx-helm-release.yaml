@@ -1,4 +1,4 @@
-apiVersion: helm.toolkit.fluxcd.io/v2beta2
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: nginx-ingress-controller
@@ -21,8 +21,8 @@ spec:
     controller:
       metrics:
         enabled: true
-    podAnnotations:
-      prometheus.io/scrape: "true"
-      prometheus.io/port: "10254"
+      podAnnotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "10254"
     defaultBackend:
       enabled: false
