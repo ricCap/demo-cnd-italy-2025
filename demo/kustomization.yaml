@@ -6,10 +6,7 @@ resources:
   - service.yaml
   - ingress.yaml
   - hpa.yaml
-  # - canary.yaml
-commonLabels:
-  app: nginx
-namePrefix: cnditaly-demo-
+  - canary.yaml
 images:
-  - name: nginx
-    newTag: latest
+  - name: demo-cnd-italy-2025/demo-cnd-italy-nginx
+    newTag: v1
