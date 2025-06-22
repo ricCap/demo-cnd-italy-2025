@@ -59,7 +59,7 @@ tasks:
       - echo "Installing Flagger..."
       - helm repo add flagger https://flagger.app
       - helm repo update
-      - helm upgrade -i flagger flagger/flagger --namespace=flagger-system --create-namespace --set prometheus.install=true
+      - helm upgrade -i flagger flagger/flagger --namespace=ingress-nginx --set meshProvider=nginx --create-namespace --set prometheus.install=true
 
   demo:setup:
     desc: Setup complete demo environment
