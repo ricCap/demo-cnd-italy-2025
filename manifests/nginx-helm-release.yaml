@@ -14,19 +14,13 @@ spec:
         name: nginx-ingress
         namespace: flux-system
       interval: 5m
-  targetNamespace: nginx-ingress
+  targetNamespace: ingress-nginx
   install:
     createNamespace: true
   values:
     controller:
-      service:
-        type: LoadBalancer
-      admissionWebhooks:
-        enabled: true
       metrics:
         enabled: true
-        serviceMonitor:
-          enabled: false
     podAnnotations:
       prometheus.io/scrape: "true"
       prometheus.io/port: "10254"
