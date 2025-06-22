@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
         - name: nginx-container
-          image: ghcr.io/riccap/demo-cnd-italy-nginx/demo-cnd-italy-nginx:v1
+          image: ghcr.io/riccap/demo-cnd-italy-2025/demo-cnd-italy-nginx:v1
           ports:
             - containerPort: 80
