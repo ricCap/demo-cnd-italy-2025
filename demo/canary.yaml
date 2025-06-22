@@ -22,6 +22,7 @@ spec:
     kind: HorizontalPodAutoscaler
     name: nginx-hpa
   analysis:
+    interval: 30s
     # max number of failed checks before rollback
     threshold: 2
     # number of checks to run before rollback
