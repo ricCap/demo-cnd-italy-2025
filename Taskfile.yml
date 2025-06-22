@@ -83,11 +83,20 @@ tasks:
       - flux resume kustomization demo-app -n flux-system
       - echo "Kustomization resumed - GitOps reconciliation active"
 
+  demo:update-v1:
+    desc: Update deployment to v2 image (requires suspended kustomization)
+    cmds:
+      - echo "Updating deployment to v1..."
+      - kubectl patch deployment nginx-deployment -n {{.NAMESPACE}} -p '{"spec":{"replicas":1,"template":{"spec":{"containers":[{"name":"nginx-container","image":"ghcr.io/riccap/demo-cnd-italy-2025/demo-cnd-italy-nginx:v1"}]}}}}'
+      - kubectl scale deployment nginx-deployment -n {{.NAMESPACE}} --replicas=1
+      - echo "Deployment updated to v1"
+
   demo:update-v2:
     desc: Update deployment to v2 image (requires suspended kustomization)
     cmds:
       - echo "Updating deployment to v2..."
       - kubectl patch deployment nginx-deployment -n {{.NAMESPACE}} -p '{"spec":{"template":{"spec":{"containers":[{"name":"nginx-container","image":"ghcr.io/riccap/demo-cnd-italy-2025/demo-cnd-italy-nginx:v2"}]}}}}'
+      - kubectl scale deployment nginx-deployment -n {{.NAMESPACE}} --replicas=1
       - echo "Deployment updated to v2"
 
   demo:canary:
