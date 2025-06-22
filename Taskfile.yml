@@ -94,12 +94,11 @@ tasks:
     desc: Demonstrate canary deployment
     cmds:
       - echo "Starting canary deployment demo..."
-      - echo "1. Suspending kustomization for manual control"
+      - echo "1. Suspending kustomization for manual changes"
       - task: demo:suspend
-      - echo "2. Applying canary configuration"
-      - kubectl apply -f demo/canary.yaml -n {{.NAMESPACE}}
-      - echo "3. Canary deployment initiated - monitor with{{":"}} kubectl get canary nginx-canary -w"
-      - echo "4. To trigger canary progression, update deployment image to v2{{":"}} task demo:update-v2"
+      - echo "2. Updating deployment to v2 image"
+      - task: demo:update-v2
+      - echo "3. To Resume kustomization task demo:resume"
 
   status:
     desc: Check status of demo components
