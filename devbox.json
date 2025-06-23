@@ -12,7 +12,9 @@
       "echo 'Welcome to the FluxCD and Flagger demo environment!'",
       "echo 'Available tools: task, kubectl, helm, flux, k3d, k9s'",
       "echo 'Run \"task --list\" to see available tasks'",
-      "alias k=kubectl"
+      "alias k=kubectl",
+      "source <(kubectl completion bash)",
+      "complete -F __start_kubectl k"
     ]
   }
 }

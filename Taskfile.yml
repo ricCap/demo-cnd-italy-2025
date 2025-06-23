@@ -84,16 +84,24 @@ tasks:
       - echo "Kustomization resumed - GitOps reconciliation active"
 
   demo:update-v1:
-    desc: Update deployment to v2 image (requires suspended kustomization)
+    desc: Update deployment to v1 image and green background (requires suspended kustomization)
     cmds:
-      - echo "Updating deployment to v1..."
-      - kubectl -n test set image deployment/podinfo podinfo=ghcr.io/stefanprodan/podinfo:6.0.1
+      - echo "Updating deployment to v1 with green background..."
+      - kubectl -n test set env deployment/podinfo PODINFO_UI_COLOR="#fc0339"
+      - task demo:test
 
   demo:update-v2:
-    desc: Update deployment to v2 image (requires suspended kustomization)
+    desc: Update deployment to v2 image and red background (requires suspended kustomization)
     cmds:
-      - echo "Updating deployment to v2..."
-      - kubectl -n test set image deployment/podinfo podinfo=ghcr.io/stefanprodan/podinfo:6.0.2
+      - echo "Updating deployment to v2 with red background..."
+      - kubectl -n test set env deployment/podinfo PODINFO_UI_COLOR="#5afc03"
+      - task demo:test
+
+  demo:test:
+    desc: Test the application endpoint 50 times
+    cmds:
+      - echo "Testing app.example.com{{":"}}8080 50 times..."
+      - for i in {1..50}; do curl -s -o /dev/null -w "Request $i{{":"}} %{http_code} - %{time_total}s\n" http://app.example.com:8080/ || echo "Request $i{{":"}} Failed"; sleep 5; done
 
   demo:canary:
     desc: Demonstrate canary deployment
