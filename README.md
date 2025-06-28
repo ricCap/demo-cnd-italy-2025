@@ -52,15 +52,6 @@ For more installation options, visit: https://www.jetpack.io/devbox/docs/install
 
 This project uses devbox to manage development dependencies. All required tools are automatically installed when you enter the devbox shell.
 
-## Demo Applications
-
-This repository includes two sample applications to demonstrate progressive delivery:
-
-### Docker Images
-- **v1 (Blue)**: `ghcr.io/OWNER/REPO/demo-cnd-italy-nginx:v1` - Blue background version
-- **v2 (Green)**: `ghcr.io/OWNER/REPO/demo-cnd-italy-nginx:v2` - Green background version
-
-Both images extend the nginx base image and serve a simple HTML page with different background colors to visually demonstrate version differences during canary deployments.
 
 ### CI/CD Pipeline
 The GitHub Actions workflow automatically builds and pushes both image variants to the GitHub Container Registry when changes are pushed to the main branch.
